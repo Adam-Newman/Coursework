@@ -10,35 +10,37 @@ public class Main {
     public static Connection db = null;
     private static Throwable exception;
 
-    public static void writeToDatabase() {
-        try{
-            PreparedStatement ps = db.prepareStatement("Insert INTO Users (UserID, Username, Password, Email) VALUES (?, ?, ?, ?)");
-
-            ps.setInt(1, 6);
-            ps.setString(2, "Charlie");
-            ps.setString(3, "pASSWORD");
-            ps.setString(4, "CDE");
-
-            ps.executeUpdate();
-        } catch (Exception exception){
-            System.out.println("Database error: " + exception.getMessage());
-        }
-
-
-    }
+//    public static void writeToDatabase() {
+//        try{
+//            PreparedStatement ps = db.prepareStatement("Insert INTO Users (UserID, Username, Password, Email) VALUES (?, ?, ?, ?)");
+//
+//            ps.setInt(1, 6);
+//            ps.setString(2, "Charlie");
+//            ps.setString(3, "pASSWORD");
+//            ps.setString(4, "CDE");
+//
+//            ps.executeUpdate();
+//        } catch (Exception exception){
+//            System.out.println("Database error: " + exception.getMessage());
+//        }
+//
+//
+//    }
 
     public static void main(String[] args) {
-        openDatabase("courseworkDB.db");
-        writeToDatabase();
+        openDatabase("MusicDB.db");
+        //writeToDatabase();
         try {
-            PreparedStatement ps = db.prepareStatement("SELECT UserID, Username, Password, Email FROM Users ");
+            PreparedStatement ps = db.prepareStatement("SELECT SongID, SongName, TLength, BPM from Songs inner join  Artist ON Songs.ArtistID=Artist.ArtistName   ");
             ResultSet results = ps.executeQuery();
             while (results.next()) {
-                int UserID = results.getInt(1);
-                String Username = results.getString(2);
-                String Password = results.getString(3);
-                String Email = results.getString(4);
-                System.out.println(UserID + " " + Username + " " + Password + " " + Email);
+                int SongID = results.getInt(1);
+                String SongName = results.getString(2);
+                String TLength = results.getString(3);
+                int BPM = results.getInt(4);
+  //              int ArtistID = results.getInt(5);
+                String ArtistName = results.getString(6);
+                System.out.println(SongID + " " + SongName + " " + TLength + " " + BPM + " " + ArtistName);
             }
         } catch (Exception exception) {
             System.out.println("Database error: " + exception.getMessage());
